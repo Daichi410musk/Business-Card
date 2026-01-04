@@ -1,8 +1,11 @@
+import { Route, Routes } from "react-router-dom";
+import { Cards } from "./components/Pages/Cards";
+
 function App() {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <Routes>
+      <Route path="/cards/:id" element={<Cards />} />
+    </Routes>
   );
 }
 

@@ -1,17 +1,16 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import "@testing-library/jest-dom";
 import { Cards } from "../pages/Cards";
+import { renderWithChakra } from "../test-utils";
 
 // --------------------
 // mocks
 // --------------------
 
-// navigate のモック
 const mockNavigate = vi.fn();
 
-// react-router-dom のモック
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual<any>("react-router-dom");
   return {
@@ -21,7 +20,6 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// useUser のモック
 vi.mock("../../hooks/useUser", () => ({
   useUser: () => ({
     loading: false,
@@ -46,8 +44,7 @@ vi.mock("../../hooks/useUser", () => ({
 describe("Cards", () => {
   test("戻るボタンをクリックすると / に遷移する", async () => {
     const user = userEvent.setup();
-
-    render(<Cards />);
+    renderWithChakra(<Cards />);
 
     const backButton = screen.getByRole("button", { name: "戻る" });
     await user.click(backButton);

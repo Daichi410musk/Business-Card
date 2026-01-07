@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import "@testing-library/jest-dom";
 import { Register } from "../pages/Register";
+import { renderWithChakra } from "../test-utils";
 
 // --------------------
 // mocks
@@ -10,7 +11,6 @@ import { Register } from "../pages/Register";
 
 const mockNavigate = vi.fn();
 
-// react-router
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual<any>("react-router-dom");
   return {
@@ -19,7 +19,6 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// supabase
 const insertMock = vi.fn().mockResolvedValue({ error: null });
 
 vi.mock("../../utils/supabase", () => ({
@@ -36,20 +35,22 @@ vi.mock("../../utils/supabase", () => ({
 
 describe("Register", () => {
   test("タイトルが表示されている", () => {
-    render(<Register />);
-    expect(screen.getByText("名刺登録")).toBeInTheDocument();
+    renderWithChakra(<Register />);
+    expect(screen.getByText("新規名刺登録")).toBeInTheDocument();
   });
 
-  test("全項目入力して登録すると / に遷移する", async () => {
+  test("必須項目を入力して登録すると / に遷移する", async () => {
     const user = userEvent.setup();
-    render(<Register />);
+    renderWithChakra(<Register />);
 
-    await user.type(screen.getByLabelText("ID"), "daichi");
-    await user.type(screen.getByLabelText("名前"), "Daichi");
+    await user.type(screen.getByPlaceholderText("coffee"), "daichi");
+    await user.type(screen.getByRole("textbox", { name: "" }), "Daichi");
     await user.type(
-      screen.getByLabelText("自己紹介"),
+      screen.getByPlaceholderText("<h1>HTMLタグも使えます</h1>"),
       "フロントエンドエンジニア"
     );
+
+    await user.selectOptions(screen.getByRole("combobox"), "1");
 
     await user.click(screen.getByRole("button", { name: "登録" }));
 
@@ -59,7 +60,7 @@ describe("Register", () => {
 
   test("IDがないとエラーメッセージが表示される", async () => {
     const user = userEvent.setup();
-    render(<Register />);
+    renderWithChakra(<Register />);
 
     await user.click(screen.getByRole("button", { name: "登録" }));
 
@@ -68,35 +69,22 @@ describe("Register", () => {
 
   test("名前がないとエラーメッセージが表示される", async () => {
     const user = userEvent.setup();
-    render(<Register />);
+    renderWithChakra(<Register />);
 
-    await user.type(screen.getByLabelText("ID"), "daichi");
+    await user.type(screen.getByPlaceholderText("coffee"), "daichi");
     await user.click(screen.getByRole("button", { name: "登録" }));
 
-    expect(screen.getByText("名前は必須です")).toBeInTheDocument();
+    expect(screen.getByText("お名前は必須です")).toBeInTheDocument();
   });
 
   test("自己紹介がないとエラーメッセージが表示される", async () => {
     const user = userEvent.setup();
-    render(<Register />);
+    renderWithChakra(<Register />);
 
-    await user.type(screen.getByLabelText("ID"), "daichi");
-    await user.type(screen.getByLabelText("名前"), "Daichi");
+    await user.type(screen.getByPlaceholderText("coffee"), "daichi");
+    await user.type(screen.getByRole("textbox", { name: "" }), "Daichi");
     await user.click(screen.getByRole("button", { name: "登録" }));
 
     expect(screen.getByText("自己紹介は必須です")).toBeInTheDocument();
-  });
-
-  test("オプション未入力でも登録できる", async () => {
-    const user = userEvent.setup();
-    render(<Register />);
-
-    await user.type(screen.getByLabelText("ID"), "daichi");
-    await user.type(screen.getByLabelText("名前"), "Daichi");
-    await user.type(screen.getByLabelText("自己紹介"), "エンジニア");
-
-    await user.click(screen.getByRole("button", { name: "登録" }));
-
-    expect(insertMock).toHaveBeenCalled();
   });
 });

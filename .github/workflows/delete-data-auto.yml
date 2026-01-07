@@ -1,0 +1,28 @@
+name: delete-data-auto
+
+on:
+  schedule:
+    - cron: "0 21 * * *" # JST 朝6時
+  workflow_dispatch:
+
+jobs:
+  delete_data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: run batch
+        run: npx ts-node --esm ./batch/index.ts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

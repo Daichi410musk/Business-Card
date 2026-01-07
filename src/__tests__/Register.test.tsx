@@ -30,7 +30,7 @@ vi.mock("../../utils/supabase", () => ({
 }));
 
 // --------------------
-// test
+// tests
 // --------------------
 
 describe("Register", () => {
@@ -43,18 +43,17 @@ describe("Register", () => {
     const user = userEvent.setup();
     renderWithChakra(<Register />);
 
-    await user.type(screen.getByPlaceholderText("coffee"), "daichi");
-    await user.type(screen.getByRole("textbox", { name: "" }), "Daichi");
+    await user.type(screen.getByLabelText("user-id"), "daichi");
+    await user.type(screen.getByLabelText("name"), "Daichi");
     await user.type(
-      screen.getByPlaceholderText("<h1>HTMLタグも使えます</h1>"),
+      screen.getByLabelText("description"),
       "フロントエンドエンジニア"
     );
-
-    await user.selectOptions(screen.getByRole("combobox"), "1");
+    await user.selectOptions(screen.getByLabelText("skill"), "1");
 
     await user.click(screen.getByRole("button", { name: "登録" }));
 
-    expect(insertMock).toHaveBeenCalled();
+    expect(insertMock).toHaveBeenCalledTimes(2);
     expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
@@ -71,7 +70,7 @@ describe("Register", () => {
     const user = userEvent.setup();
     renderWithChakra(<Register />);
 
-    await user.type(screen.getByPlaceholderText("coffee"), "daichi");
+    await user.type(screen.getByLabelText("user-id"), "daichi");
     await user.click(screen.getByRole("button", { name: "登録" }));
 
     expect(screen.getByText("お名前は必須です")).toBeInTheDocument();
@@ -81,8 +80,8 @@ describe("Register", () => {
     const user = userEvent.setup();
     renderWithChakra(<Register />);
 
-    await user.type(screen.getByPlaceholderText("coffee"), "daichi");
-    await user.type(screen.getByRole("textbox", { name: "" }), "Daichi");
+    await user.type(screen.getByLabelText("user-id"), "daichi");
+    await user.type(screen.getByLabelText("name"), "Daichi");
     await user.click(screen.getByRole("button", { name: "登録" }));
 
     expect(screen.getByText("自己紹介は必須です")).toBeInTheDocument();

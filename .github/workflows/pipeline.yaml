@@ -83,7 +83,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Prepeare Google Application Credentials
+      - name: Prepare Google Application Credentials
         run: |
           echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" | base64 --decode > $HOME/private-key.json
 

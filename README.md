@@ -6,7 +6,6 @@ https://github.com/user-attachments/assets/49bdf6d6-fdbb-4c45-a270-e09b8cfa63ac
 
 This project is an **online business card system** that allows users to register and share their information instantly.  
 Each business card is **valid only for the current day** and automatically becomes inaccessible the next day.
-
 The system is designed with a **mobile-first approach**, assuming usage primarily on smartphones.
 
 ---

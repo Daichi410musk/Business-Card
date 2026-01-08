@@ -1,6 +1,6 @@
 # Online Business Card System
-https://github.com/user-attachments/assets/49bdf6d6-fdbb-4c45-a270-e09b8cfa63ac
 
+https://github.com/user-attachments/assets/49bdf6d6-fdbb-4c45-a270-e09b8cfa63ac
 
 ## Overview
 
@@ -39,13 +39,13 @@ The system is designed with a **mobile-first approach**, assuming usage primaril
 
 ## Tech Stack
 
-- TypeScript  
-- React  
-- Vite  
-- Vitest  
-- React Testing Library  
-- Supabase  
-- Firebase  
-- Chakra UI  
+- TypeScript
+- React
+- Vite
+- Vitest
+- React Testing Library
+- Supabase
+- Firebase
+- Chakra UI
 
 ---

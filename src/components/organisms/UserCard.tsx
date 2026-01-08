@@ -20,7 +20,7 @@ type Props = {
   description: string;
   skills: Skill[];
   githubId?: string;
-  qlitaId?: string;
+  qiitaId?: string;
   xId?: string;
 };
 
@@ -29,7 +29,7 @@ export function UserCard({
   description,
   skills,
   githubId,
-  qlitaId,
+  qiitaId,
   xId,
 }: Props) {
   return (
@@ -68,14 +68,23 @@ export function UserCard({
             </Link>
           )}
 
-          {qlitaId && (
+          {qiitaId && (
             <Link
-              href={`https://qiita.com/${qlitaId}`}
+              href={`https://qiita.com/${qiitaId}`}
               target="_blank"
               rel="noreferrer"
             >
-              <IconButton aria-label="qiita" variant="ghost">
-                <Icon as={SiQiita} />
+              <IconButton
+                aria-label="qiita"
+                variant="ghost"
+                border="1px solid"
+                borderColor="whiteAlpha.600"
+                borderRadius="full"
+                _hover={{
+                  borderColor: "whiteAlpha.900",
+                }}
+              >
+                <Icon as={SiQiita} boxSize={6} color="green.400" />
               </IconButton>
             </Link>
           )}

@@ -54,7 +54,14 @@ export function Register() {
 
   return (
     <Box bg="gray.100" minH="100vh" px={10} py={10}>
-      <Box maxW="360px" mx="auto" p={5} bg="white" borderRadius="md">
+      <Box
+        maxW="360px"
+        mx="auto"
+        p={5}
+        bg="white"
+        borderRadius="md"
+        color="gray.800"
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack align="stretch" gap={4}>
             <Heading size="md" textAlign="center">
@@ -65,6 +72,7 @@ export function Register() {
             <VStack align="stretch">
               <Text fontSize="sm">好きな英単語*</Text>
               <Input
+                color="gray.800"
                 aria-label="user-id"
                 placeholder="coffee"
                 {...register("userId", {
@@ -82,6 +90,7 @@ export function Register() {
             <VStack align="stretch">
               <Text fontSize="sm">お名前*</Text>
               <Input
+                color="gray.800"
                 aria-label="name"
                 {...register("name", {
                   required: "お名前は必須です",
@@ -117,6 +126,7 @@ export function Register() {
               <Text fontSize="sm">好きな技術*</Text>
               <select
                 aria-label="skill"
+                style={{ color: "#ffffff" }}
                 {...register("skillId", {
                   required: "技術を選択してください",
                 })}
@@ -138,7 +148,14 @@ export function Register() {
             <Input placeholder="Qiita ID" {...register("qiitaId")} />
             <Input placeholder="X ID" {...register("xId")} />
 
-            <Button type="submit" width="30%" alignSelf="center">
+            <Button
+              type="submit"
+              width="30%"
+              alignSelf="center"
+              variant="outline"
+              borderColor="gray.400"
+              color="gray.800"
+            >
               登録
             </Button>
           </VStack>

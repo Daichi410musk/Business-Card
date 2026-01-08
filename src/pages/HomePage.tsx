@@ -16,6 +16,10 @@ export function HomePage() {
     navigate(`/cards/${id}`);
   };
 
+  const handleRegisterClick = () => {
+    navigate("/cards/register");
+  };
+
   return (
     <Box
       minH="100vh"
@@ -36,6 +40,14 @@ export function HomePage() {
 
         <Button colorScheme="teal" w="100%" onClick={handleClick}>
           名刺を見る
+        </Button>
+
+        <Button
+          variant="ghost"
+          colorScheme="teal"
+          onClick={handleRegisterClick}
+        >
+          新規登録はこちら
         </Button>
       </VStack>
     </Box>

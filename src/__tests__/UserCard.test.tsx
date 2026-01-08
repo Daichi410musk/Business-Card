@@ -12,7 +12,7 @@ describe("UserCard", () => {
       { id: 2, name: "TypeScript" },
     ],
     githubId: "daichi-github",
-    qlitaId: "daichi-qiita",
+    qiitaId: "daichi-qiita",
     xId: "daichi-x",
   };
 

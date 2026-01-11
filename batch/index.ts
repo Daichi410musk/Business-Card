@@ -19,28 +19,59 @@ async function main() {
   console.log("from:", yesterday.toISOString());
   console.log("to  :", today.toISOString());
 
-  // ① user_skill を先に削除
-  const { error: userSkillError } = await supabase
+  const { count: userSkillCount, error: userSkillCountError } = await supabase
     .from("user_skill")
-    .delete()
+    .select("id", { count: "exact", head: true })
     .gte("created_at", yesterday.toISOString())
     .lt("created_at", today.toISOString());
 
-  if (userSkillError) {
-    console.error("user_skill delete error", userSkillError);
+  if (userSkillCountError) {
+    console.error("user_skill count error", userSkillCountError);
     process.exit(1);
   }
 
-  // ② users を削除
-  const { error: userError } = await supabase
+  const { count: userCount, error: userCountError } = await supabase
     .from("users")
-    .delete()
+    .select("id", { count: "exact", head: true })
     .gte("created_at", yesterday.toISOString())
     .lt("created_at", today.toISOString());
 
-  if (userError) {
-    console.error("users delete error", userError);
+  if (userCountError) {
+    console.error("users count error", userCountError);
     process.exit(1);
+  }
+
+  if ((userSkillCount ?? 0) === 0 && (userCount ?? 0) === 0) {
+    console.log("no data to delete");
+    return;
+  }
+
+  // ① user_skill を先に削除
+  if ((userSkillCount ?? 0) > 0) {
+    const { error: userSkillError } = await supabase
+      .from("user_skill")
+      .delete()
+      .gte("created_at", yesterday.toISOString())
+      .lt("created_at", today.toISOString());
+
+    if (userSkillError) {
+      console.error("user_skill delete error", userSkillError);
+      process.exit(1);
+    }
+  }
+
+  // ② users を削除
+  if ((userCount ?? 0) > 0) {
+    const { error: userError } = await supabase
+      .from("users")
+      .delete()
+      .gte("created_at", yesterday.toISOString())
+      .lt("created_at", today.toISOString());
+
+    if (userError) {
+      console.error("users delete error", userError);
+      process.exit(1);
+    }
   }
 
   console.log("delete success");
